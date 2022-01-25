@@ -8,11 +8,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float speed = 10f;
     Rigidbody2D rb2d;
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        animator.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
