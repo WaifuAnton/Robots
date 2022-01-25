@@ -5,17 +5,25 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    PlayerInput playerInput;
+    [SerializeField]
+    float speed = 10f;
+    Rigidbody2D rb2d;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnMove(InputAction.CallbackContext context)
     {
-        
+        if (context.performed)
+        {
+            Vector2 velocity = context.ReadValue<Vector2>();
+            velocity.x *= speed;
+            rb2d.AddForce(velocity, ForceMode2D.Impulse);
+        }
+        else
+            rb2d.velocity = Vector2.zero;
     }
 }
