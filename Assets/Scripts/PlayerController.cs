@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     float speed = 10f;
     Rigidbody2D rb2d;
     Animator animator;
+    bool facingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         animator.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
-
+        if (rb2d.velocity.x > 0 && !facingRight || rb2d.velocity.x < 0 && facingRight)
+            Flip();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -33,5 +35,11 @@ public class PlayerController : MonoBehaviour
         }
         else
             rb2d.velocity = Vector2.zero;
+    }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        transform.Rotate(0, 180, 0);
     }
 }
