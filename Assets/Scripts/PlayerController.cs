@@ -25,7 +25,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         animator.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
-        animator.SetBool("Grounded", rb2d.velocity.y == 0);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.001f);
+        animator.SetBool("Grounded", IsGrounded());
         if (rb2d.velocity.x > 0 && !facingRight || rb2d.velocity.x < 0 && facingRight)
             Flip();
     }
@@ -48,7 +49,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && rb2d.velocity.y == 0)
+        if (context.started && IsGrounded())
+            animator.SetBool("Jumped", true);
+        else if (context.performed && IsGrounded())
             rb2d.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
     }
 
@@ -56,5 +59,12 @@ public class PlayerController : MonoBehaviour
     {
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
+    }
+
+    bool IsGrounded()
+    {
+        BoxCollider2D bodyCollider = transform.GetChild(2).GetComponent<BoxCollider2D>();
+        RaycastHit2D raycastHit = Physics2D.BoxCast(bodyCollider.bounds.center, bodyCollider.bounds.size, 0, Vector2.down, 0.5f);
+        return raycastHit.collider != null;
     }
 }
