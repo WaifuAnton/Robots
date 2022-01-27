@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", IsGrounded());
         if (rb2d.velocity.x > 0 && !facingRight || rb2d.velocity.x < 0 && facingRight)
             Flip();
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Jumping") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 2)
+            animator.SetBool("Jumped", false);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -49,12 +51,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && IsGrounded())
+        if (context.started)
             animator.SetBool("Jumped", true);
-        else if (context.performed && IsGrounded())
-            rb2d.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
-        else
-            animator.SetBool("Jumped", false);
+    }
+
+    public void AddForce()
+    {
+        rb2d.AddForce(Vector2.up * jump, ForceMode2D.Impulse);
     }
 
     void Flip()
@@ -66,7 +69,8 @@ public class PlayerController : MonoBehaviour
     bool IsGrounded()
     {
         BoxCollider2D bodyCollider = transform.GetChild(2).GetComponent<BoxCollider2D>();
-        RaycastHit2D raycastHit = Physics2D.BoxCast(bodyCollider.bounds.center, bodyCollider.bounds.size, 0, Vector2.down, 0.75f);
+        float distance = 0.7f;
+        RaycastHit2D raycastHit = Physics2D.BoxCast(bodyCollider.bounds.center, bodyCollider.bounds.size, 0, Vector2.down, distance);
         return raycastHit.collider != null;
     }
 }
