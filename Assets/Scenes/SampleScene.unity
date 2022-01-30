@@ -669,7 +669,7 @@ GameObject:
   - component: {fileID: 565727823}
   m_Layer: 0
   m_Name: finish game button
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -759,7 +759,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565727822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 87.08, y: 0.12, z: 0}
+  m_LocalPosition: {x: 87.08, y: 0.12, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1916,6 +1916,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1483322452268439078, guid: 7ba548274b887824ab21280c90814b3a, type: 3}
+      propertyPath: jump
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1483322452268439124, guid: 7ba548274b887824ab21280c90814b3a, type: 3}
       propertyPath: m_RootOrder
       value: 1

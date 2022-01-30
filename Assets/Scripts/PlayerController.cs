@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     Vector2 startPosition;
     bool facingRight = true;
     float horizontal = 0;
+    float timeToFinishGame = 5;
+    float currentTimeToFinishGame = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         animator.SetFloat("Speed", Mathf.Abs(rb2d.velocity.x));
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.001f);
         animator.SetBool("Grounded", IsGrounded());
         if (rb2d.velocity.x > 0 && !facingRight || rb2d.velocity.x < 0 && facingRight)
             Flip();
@@ -77,5 +78,20 @@ public class PlayerController : MonoBehaviour
             transform.position = startPosition;
             Destroy(collision.gameObject);
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag != "Finish")
+            return;
+        currentTimeToFinishGame += Time.deltaTime;
+        if (currentTimeToFinishGame >= timeToFinishGame)
+            Application.Quit();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Finish")
+            currentTimeToFinishGame = 0;
     }
 }

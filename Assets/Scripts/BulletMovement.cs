@@ -6,8 +6,10 @@ public class BulletMovement : MonoBehaviour
 {
     [SerializeField]
     float speed = 10;
+
     [SerializeField]
     float maxLifeTime = 500;
+
     float currentLifeTime = 0;
     Vector2 movement = Vector2.right;
 

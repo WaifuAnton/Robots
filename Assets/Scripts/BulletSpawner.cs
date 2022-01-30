@@ -6,10 +6,11 @@ public class BulletSpawner : MonoBehaviour
 {
     [SerializeField]
     BulletMovement bulletPrefab;
-    Transform firePoint;
 
     [SerializeField]
     float fireRate = 5;
+
+    Transform firePoint;
     float currentFireRateTime = 0;
 
     // Start is called before the first frame update
