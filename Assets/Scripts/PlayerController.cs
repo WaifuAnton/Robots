@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2d;
     Animator animator;
     bool facingRight = true;
+    float horizontal = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -33,26 +34,19 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Jumped", false);
     }
 
+    private void FixedUpdate()
+    {
+        rb2d.velocity = new Vector2(horizontal * speed, rb2d.velocity.y);
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            Vector2 velocity = context.ReadValue<Vector2>();
-            velocity.x *= speed;
-            rb2d.AddForce(velocity, ForceMode2D.Impulse);
-        }
-        else
-        {
-            Vector2 velocityTemp = rb2d.velocity;
-            velocityTemp.x = 0;
-            rb2d.velocity = velocityTemp;
-        }
+        horizontal = context.ReadValue<Vector2>().x;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
-            animator.SetBool("Jumped", true);
+        animator.SetBool("Jumped", true);
     }
 
     public void AddForce()
