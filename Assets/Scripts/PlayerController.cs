@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb2d;
     Animator animator;
+    Vector2 startPosition;
     bool facingRight = true;
     float horizontal = 0;
 
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        startPosition = transform.position;
     }
 
     private void Update()
@@ -66,5 +68,14 @@ public class PlayerController : MonoBehaviour
         float distance = 0.7f;
         RaycastHit2D raycastHit = Physics2D.BoxCast(bodyCollider.bounds.center, bodyCollider.bounds.size, 0, Vector2.down, distance);
         return raycastHit.collider != null;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Bullet")
+        {
+            transform.position = startPosition;
+            Destroy(collision.gameObject);
+        }
     }
 }
